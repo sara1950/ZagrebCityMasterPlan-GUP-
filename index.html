@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content= "text/html"; charset="UTF-8">
+    <title>WebGIS</title>
+<link rel="stylesheet" href="style.css">
+ 
+
+<!--OPEN LAYERS 2-->
+ <script type="text/javascript" src="OpenLayers-2.13.1/OpenLayers.js"></script>
+ <script type="text/javascript" src="OpenLayers-2.13.1/OpenLayers.debug.js"></script> 
+ <link rel="stylesheet" href="OpenLayers-2.13.1/theme/default/style.css">   
+
+
+ 
+ <link rel="stylesheet" href="ext2/examples/shared/example.css">   
+ <script type="text/javascript" src="ext2/examples/shared/options-toolbar.js"></script> 
+ <script type="text/javascript" src="ext2/examples/shared/include-ext.js"></script> 
+
+
+ 
+ 
+</head>
+<body>
+  
+<div class="map"></div>
+
+
+   
+ <script type="text/javascript">
+Ext.Loader.setConfig ({
+    enabled : true,
+    disableCaching : false,
+    paths : {
+        GeoExt : "GeoExt/src/GeoExt",
+        Ext: "ext2/src"
+        
+    }
+});
+
+Ext.require([
+   
+    'GeoExt.tree.OverlayLayerContainer',
+    'GeoExt.tree.BaseLayerContainer',
+    'GeoExt.data.LayerTreeModel',
+	 'GeoExt.Action',
+   'GeoExt.data.AttributeStore',
+   'GeoExt.data.FeatureStore',
+    'GeoExt.selection.FeatureModel',
+    'Ext.grid.GridPanel',
+    'Ext.layout.container.Border',
+]);
+
+
+Ext.onReady(function() {
+    
+
+var styleMap = new OpenLayers.StyleMap();
+
+var styleRules = [new OpenLayers.Rule({
+    filter:new OpenLayers.Filter.Comparison({
+        type: OpenLayers.Filter.Comparison.LIKE,
+        property:"oznaka",
+        value:"Z1"
+    }),
+    symbolizer:{
+        strokeColor:"#00c860",
+        fillColor:"#00c860"
+    }}),
+    new OpenLayers.Rule({
+    filter:new OpenLayers.Filter.Comparison({
+        type: OpenLayers.Filter.Comparison.LIKE,
+        property:"oznaka",
+        value:"Z"
+    }),
+    symbolizer:{
+        strokeColor:"#186018",
+        fillColor:"#186018"
+    }}),
+    new OpenLayers.Rule({
+    filter:new OpenLayers.Filter.Comparison({
+        type: OpenLayers.Filter.Comparison.LIKE,
+        property:"oznaka",
+        value:"G"
+    }),
+    symbolizer:{
+        strokeColor:"#9860f8",
+        fillColor:"#9860f8"
+    }}),
+    new OpenLayers.Rule({
+    filter:new OpenLayers.Filter.Comparison({
+        type: OpenLayers.Filter.Comparison.LIKE,
+        property:"oznaka",
+        value:"I"
+    }),
+    symbolizer:{
+        strokeColor:"#9860f8",
+        fillColor:"#9860f8"
+    }}),
+    new OpenLayers.Rule({
+    filter:new OpenLayers.Filter.Comparison({
+        type: OpenLayers.Filter.Comparison.LIKE,
+        property:"oznaka",
+        value:"I1"
+    }),
+    symbolizer:{
+        strokeColor:"#9860f8",
+        fillColor:"#9860f8"
+    }}),
+    new OpenLayers.Rule({
+    filter:new OpenLayers.Filter.Comparison({
+        type: OpenLayers.Filter.Comparison.LIKE,
+        property:"oznaka",
+        value:"I2"
+    }),
+    symbolizer:{
+        strokeColor:"#9860f8",
+        fillColor:"#9860f8"
+    }}),
+    new OpenLayers.Rule({
+    filter:new OpenLayers.Filter.Comparison({
+        type: OpenLayers.Filter.Comparison.LIKE,
+        property:"oznaka",
+        value:"I3"
+    }),
+    symbolizer:{
+        strokeColor:"#9860f8",
+        fillColor:"#9860f8"
+    }}),
+    new OpenLayers.Rule({
+    filter:new OpenLayers.Filter.Comparison({
+        type: OpenLayers.Filter.Comparison.LIKE,
+        property:"oznaka",
+        value:"K2-RT"
+    }),
+    symbolizer:{
+        strokeColor:"#9860f8",
+        fillColor:"#9860f8"
+    }}),
+    new OpenLayers.Rule({
+    filter:new OpenLayers.Filter.Comparison({
+        type: OpenLayers.Filter.Comparison.LIKE,
+        property:"oznaka",
+        value:"K2"
+    }),
+    symbolizer:{
+        strokeColor:"#9860f8",
+        fillColor:"#9860f8"
+    }}),
+    new OpenLayers.Rule({
+    filter:new OpenLayers.Filter.Comparison({
+        type: OpenLayers.Filter.Comparison.LIKE,
+        property:"oznaka",
+        value:"T"
+    }),
+    symbolizer:{
+        strokeColor:"#9860f8",
+        fillColor:"#9860f8"
+    }}),
+    new OpenLayers.Rule({
+    filter:new OpenLayers.Filter.Comparison({
+        type: OpenLayers.Filter.Comparison.LIKE,
+        property:"oznaka",
+        value:"K"
+    }),
+    symbolizer:{
+        strokeColor:"#f85050",
+        fillColor:"#f85050"
+    }}),
+    new OpenLayers.Rule({
+    filter:new OpenLayers.Filter.Comparison({
+        type: OpenLayers.Filter.Comparison.LIKE,
+        property:"oznaka",
+        value:"K1"
+    }),
+    symbolizer:{
+        strokeColor:"#f85050",
+        fillColor:"#f85050"
+    }}),
+    new OpenLayers.Rule({
+    filter:new OpenLayers.Filter.Comparison({
+        type: OpenLayers.Filter.Comparison.LIKE,
+        property:"oznaka",
+        value:"D"
+    }),
+    symbolizer:{
+        strokeColor:"#f85050",
+        fillColor:"#f85050"
+    }}),
+    new OpenLayers.Rule({
+    filter:new OpenLayers.Filter.Comparison({
+        type: OpenLayers.Filter.Comparison.LIKE,
+        property:"oznaka",
+        value:"S"
+    }),
+    symbolizer:{
+        strokeColor:"#f09040",
+        fillColor:"#f09040"
+    }}),
+    new OpenLayers.Rule({
+    filter:new OpenLayers.Filter.Comparison({
+        type: OpenLayers.Filter.Comparison.LIKE,
+        property:"oznaka",
+        value:"M1-2"
+    }),
+    symbolizer:{
+        strokeColor:"#f09040",
+        fillColor:"#f09040"
+    }}),
+    new OpenLayers.Rule({
+    filter:new OpenLayers.Filter.Comparison({
+        type: OpenLayers.Filter.Comparison.LIKE,
+        property:"oznaka",
+        value:"M1-1"
+    }),
+    symbolizer:{
+        strokeColor:"#f09040",
+        fillColor:"#f09040"
+    }}),
+    new OpenLayers.Rule({
+    filter:new OpenLayers.Filter.Comparison({
+        type: OpenLayers.Filter.Comparison.LIKE,
+        property:"oznaka",
+        value:"M"
+    }),
+    symbolizer:{
+        strokeColor:"#f09040",
+        fillColor:"#f09040"
+    }}),
+    new OpenLayers.Rule({
+    filter:new OpenLayers.Filter.Comparison({
+        type: OpenLayers.Filter.Comparison.LIKE,
+        property:"oznaka",
+        value:"M1"
+    }),
+    symbolizer:{
+        strokeColor:"#f09040",
+        fillColor:"#f09040"
+    }}),
+    new OpenLayers.Rule({
+    filter:new OpenLayers.Filter.Comparison({
+        type: OpenLayers.Filter.Comparison.LIKE,
+        property:"oznaka",
+        value:"N"
+    }),
+    symbolizer:{
+        strokeColor:"#8B008B",
+        fillColor:"#8B008B"
+    }}),
+    new OpenLayers.Rule({
+    filter:new OpenLayers.Filter.Comparison({
+        type: OpenLayers.Filter.Comparison.LIKE,
+        property:"oznaka",
+        value:"R1"
+    }),
+    symbolizer:{
+        strokeColor:"#60f860",
+        fillColor:"#60f860"
+    }}),
+    new OpenLayers.Rule({
+    filter:new OpenLayers.Filter.Comparison({
+        type: OpenLayers.Filter.Comparison.LIKE,
+        property:"oznaka",
+        value:"R2"
+    }),
+    symbolizer:{
+        strokeColor:"#60f860",
+        fillColor:"#60f860"
+    }}),
+    new OpenLayers.Rule({
+    filter:new OpenLayers.Filter.Comparison({
+        type: OpenLayers.Filter.Comparison.LIKE,
+        property:"oznaka",
+        value:"IS"
+    }),
+    symbolizer:{
+        strokeColor:"#d8d8c0",
+        fillColor:"#d8d8c0"
+    }}),
+    new OpenLayers.Rule({
+    filter:new OpenLayers.Filter.Comparison({
+        type: OpenLayers.Filter.Comparison.LIKE,
+        property:"oznaka",
+        value:"IS2"
+    }),
+    symbolizer:{
+        strokeColor:"#d8d8c0",
+        fillColor:"#d8d8c0"
+    }}),
+    new OpenLayers.Rule({
+    filter:new OpenLayers.Filter.Comparison({
+        type: OpenLayers.Filter.Comparison.LIKE,
+        property:"oznaka",
+        value:"IS"
+    }),
+    symbolizer:{
+        strokeColor:"#d8d8c0",
+        fillColor:"#d8d8c0"
+    }}),
+    new OpenLayers.Rule({
+    filter:new OpenLayers.Filter.Comparison({
+        type: OpenLayers.Filter.Comparison.LIKE,
+        property:"oznaka",
+        value:"null"
+    }),
+    symbolizer:{
+        strokeColor:"#98c800",
+        fillColor:"#98c800"
+    }}),
+    new OpenLayers.Rule({
+    filter:new OpenLayers.Filter.Comparison({
+        type: OpenLayers.Filter.Comparison.LIKE,
+        property:"oznaka",
+        value:"V"
+    }),
+    symbolizer:{
+        strokeColor:"#00b0f0",
+        fillColor:"#00b0f0"
+    }}),
+    new OpenLayers.Rule({
+    filter:new OpenLayers.Filter.Comparison({
+        type: OpenLayers.Filter.Comparison.LIKE,
+        property:"oznaka",
+        value:"V1"
+    }),
+    symbolizer:{
+        strokeColor:"#00b0f0",
+        fillColor:"#00b0f0"
+    }}),
+    new OpenLayers.Rule({
+    filter:new OpenLayers.Filter.Comparison({
+        type: OpenLayers.Filter.Comparison.LIKE,
+        property:"oznaka",
+        value:"V2"
+    }),
+    symbolizer:{
+        strokeColor:"#00b0f0",
+        fillColor:"#00b0f0"
+    }}),
+    new OpenLayers.Rule({
+    filter:new OpenLayers.Filter.Comparison({
+        type: OpenLayers.Filter.Comparison.LIKE,
+        property:"oznaka",
+        value:"K1-Z"
+    }),
+    symbolizer:{
+        strokeColor:"#a0a0a0",
+        fillColor:"#a0a0a0"
+    }}),
+    new OpenLayers.Rule({
+    filter:new OpenLayers.Filter.Comparison({
+        type: OpenLayers.Filter.Comparison.LIKE,
+        property:"oznaka",
+        value:"ZK"
+    }),
+    symbolizer:{
+        strokeColor:"#a0a0a0",
+        fillColor:"#a0a0a0"
+    }}),
+    new OpenLayers.Rule({
+    filter:new OpenLayers.Filter.Comparison({
+        type: OpenLayers.Filter.Comparison.LIKE,
+        property:"oznaka",
+        value:"GR"
+    }),
+    symbolizer:{
+        strokeColor:"#484020",
+        fillColor:"#484020"
+    }}),
+    
+];
+
+styleMap.styles["default"].addRules(styleRules);
+
+  
+var stupnjevi = new OpenLayers.Projection("EPSG:4326");
+var ravninske= new OpenLayers.Projection("EPSG:900913");
+var map = new OpenLayers.Map('map', {
+    
+projection: ravninske,
+	displayProjection: ravninske,
+	units: "m",
+	numZoomLevels: 10
+	
+},
+{ controls: [] });
+
+map.addControl(new OpenLayers.Control.LayerSwitcher());
+map.addControl(new OpenLayers.Control.ZoomToMaxExtent());
+map.addControl(new OpenLayers.Control.Permalink());
+map.addControl(new OpenLayers.Control.OverviewMap());
+map.addControl(new OpenLayers.Control.KeyboardDefaults());
+map.addControl(new OpenLayers.Control.Navigation());
+
+
+            
+      
+
+
+
+var openstreetmap = new OpenLayers.Layer.OSM();
+
+
+var gup = new OpenLayers.Layer.Vector("Planirana namjena", {
+ 
+    styleMap: styleMap,
+ protocol: new OpenLayers.Protocol.HTTP({
+     url: "data/namjena.geojson",
+     format: new OpenLayers.Format.GeoJSON()
+ }),
+ strategies: [new OpenLayers.Strategy.Fixed()],
+ 
+ isBasiclayer: false,
+ displayInLayerSwitcher: true,
+
+}); 
+
+
+map.addLayers([ openstreetmap,gup]);
+
+map.setCenter(new OpenLayers.LonLat(1778559.22,5749643.21),11 );
+
+var katastarske_cestice = new OpenLayers.Layer.WMS(
+    "Katastarske čestice",
+    "https://api.uredjenazemlja.hr/services/inspire/cp_wms/wms",
+    {layers:"CP.CadastralParcel",
+        transparent:"true",
+        format:"image/jpeg",
+        opacity:0.5
+    },
+    {isBaseLayer:false}
+);
+
+var katastarske_opcine = new OpenLayers.Layer.WMS(
+    "Katastarske općine",
+    "https://api.uredjenazemlja.hr/services/inspire/cp_wms/wms",
+    {layers:"CP.CadastralZoning",
+        transparent:"true",
+        format:"image/jpeg"
+    },
+    {isBaseLayer:false}
+);
+
+map.addLayers([katastarske_cestice,katastarske_opcine]);
+
+var selectControl = new OpenLayers.Control.SelectFeature(
+   [gup],
+   
+ {
+   clickout:true, toggle:false,
+       multiple: false, hover:false
+ });
+
+ map.addControl(selectControl);
+ selectControl.activate();
+	
+
+
+ var featureStore = Ext.create( 'GeoExt.data.FeatureStore', {
+ 
+ fields: [
+ {name: "Namjena", type: "string"},
+ {name: "Naziv_plana", type: "string"},
+ {name: "oznaka", type: "string"}
+ ],
+ layer: gup
+ });
+
+
+
+
+
+var gridPanel = Ext.create('Ext.grid.Panel', {
+    store: featureStore,
+    columns: [
+        { text: 'Oznaka',  dataIndex: 'oznaka', width:80 },
+        { text: 'Namjena', dataIndex: 'Namjena', width:120  },
+        { text: 'Naziv plana', dataIndex: 'Naziv_plana',width:200 }
+    ],
+    sm: new GeoExt.selection.FeatureModel({
+						autoPanMapOnSelection: true
+						
+					}),
+                  selType: 'featuremodel',
+
+    width: 400,
+    renderTo: Ext.getBody()
+});
+
+
+var mapPanel = Ext.create('GeoExt.panel.Map', {
+        map: map,
+        region: 'center',
+		stateful: true,
+        
+        
+      });
+
+
+
+    
+  
+map.addControl(
+                new OpenLayers.Control.MousePosition({
+                    prefix:'Easting | Northing </a> koordinate: ',
+                    separator: ' | ',
+                    numDigits: 2,
+                    emptyString: 'Pokazivač nije na karti.'
+				
+                })
+            );
+
+
+ 
+var viewport = Ext.create('Ext.container.Viewport', {
+        layout: 'border',
+        items: [{
+            region: 'north',
+            xtype:'container',
+            html: '<h1>WebGIS preglednik</h1>',
+            border: false,
+            margin: '0 0 5 0'
+           
+        }, {
+            region: 'west',
+            border: true,
+            split: true,
+            collapsible: true,
+            title: 'GUP - atributni podaci',
+            width: 400,
+            items:gridPanel
+          
+
+            
+        },  {
+            region: 'center',
+            layout:'fit',
+            title: 'Kartografski prikaz',
+            activeTab: 0,  
+           items:mapPanel
+        }]
+    });
+
+
+
+
+
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ </script>
+
+
+   
+</body>
+</html>
+
